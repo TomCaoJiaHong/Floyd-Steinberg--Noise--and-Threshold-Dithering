@@ -26,6 +26,18 @@ function dithered_image = floyd_steinberg_dither(image)
         end
     end
 
+    im_fs = im_fs(1:height, 2:width+1);
+
+    %imshow(im_fs);
+
+    %reduce bit depth to 4
+    dithered_image = round(((2^4-1)*im_fs)/(2^4-1));
+    %store the image
+    imwrite(dithered_image, bit4_name);
     
+    %reduce bit depth to 2
+    dithered_image = round(((2^2-1)*im_fs)/(2^2-1));
+    %store the image
+    imwrite(dithered_image, bit2_name);
     
 end
