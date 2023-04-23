@@ -10,7 +10,21 @@ function dithered_image = floyd_steinberg_dither(image)
     %read image
     im = imread(image);
     
-    
+    %dither image
+    [height, width] = size(im);
+    im_fs = zeros(height+1, width+2);
+    im_fs(1:height, 2:width+1) = im;
+    for k=1:height
+        for l=2:width+1
+            rounded = round(im_fs(k, l), -2);
+            error = im_fs(k, l)-rounded;
+            im_fs(k, l) = rounded;
+            im_fs(k, l+1) = im_fs(k, l+1) + error*7/16;
+            im_fs(k+1, l-1) = im_fs(k+1, l-1) + error*3/16;
+            im_fs(k+1, l) = im_fs(k+1, l) + error*5/16;
+            im_fs(k+1, l+1) = im_fs(k+1, l+1) + error/16;
+        end
+    end
 
     
     
